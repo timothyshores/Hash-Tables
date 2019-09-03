@@ -1,63 +1,58 @@
-
-
-# '''
 # Basic hash table key/value pair
-# '''
 class Pair:
     def __init__(self, key, value):
         self.key = key
         self.value = value
 
 
-# '''
 # Basic hash table
-# Fill this in.  All storage values should be initialized to None
-# '''
 class BasicHashTable:
     def __init__(self, capacity):
-        pass
+        self.capacity = capacity
+        self.storage = [Pair(None, None)] * capacity
 
 
-# '''
-# Fill this in.
-# Research and implement the djb2 hash function
-# '''
+# djb2 hash function
 def hash(string, max):
-    pass
+    hash = 5381
+    for char in string:
+        # << shifts the bits of the first operand left by 5 bits & ord(char) returns unicode point/ascii value
+        hash = ((hash << 5) + hash) + ord(char)
+    # returns a hashed integer between 0 and max
+    return hash % max
 
 
-# '''
-# Fill this in.
-
-# If you are overwriting a value with a different key, print a warning.
-# '''
 def hash_table_insert(hash_table, key, value):
-    pass
+    index = hash(key, hash_table.capacity)
+
+    # if you are overwriting a value with a different key, print a warning.
+    if hash_table.storage[index].value != None:
+        print('Warning, overwriting existing data on insert')
+
+    # else create a new key/value pair
+    hash_table.storage[index] = Pair(key, value)
 
 
-# '''
-# Fill this in.
-
-# If you try to remove a value that isn't there, print a warning.
-# '''
 def hash_table_remove(hash_table, key):
-    pass
+    # hash the key, max is hash table capacity
+    index = hash(key, hash_table.capacity)
 
+    # If you try to remove a value that isn't there, print a warning.
+    if hash_table.storage[index].value == None:
+        print(f"Warning: key: {key} does not exist")
+    # else remove the key/value pair
+    hash_table.storage[index] = Pair(None, None)
 
-# '''
-# Fill this in.
 
 # Should return None if the key is not found.
-# '''
 def hash_table_retrieve(hash_table, key):
-    pass
+    index = hash(key, hash_table.capacity)
+    return hash_table.storage[index].value
 
 
 def Testing():
     ht = BasicHashTable(16)
-
     hash_table_insert(ht, "line", "Here today...\n")
-
     hash_table_remove(ht, "line")
 
     if hash_table_retrieve(ht, "line") is None:
