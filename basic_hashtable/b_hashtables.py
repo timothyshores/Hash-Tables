@@ -29,7 +29,7 @@ def hash_table_insert(hash_table, key, value):
     if hash_table.storage[index].value != None:
         print('Warning, overwriting existing data on insert')
 
-    # else create a new key/value pair
+    # create a new key/value pair
     hash_table.storage[index] = Pair(key, value)
 
 
@@ -38,16 +38,20 @@ def hash_table_remove(hash_table, key):
     index = hash(key, hash_table.capacity)
 
     # If you try to remove a value that isn't there, print a warning.
-    if hash_table.storage[index].value == None:
+    if hash_table.storage[index].value == None or hash_table.storage[index].key != key:
         print(f"Warning: key: {key} does not exist")
     # else remove the key/value pair
-    hash_table.storage[index] = Pair(None, None)
+    else:
+        hash_table.storage[index] = Pair(None, None)
 
 
 # Should return None if the key is not found.
 def hash_table_retrieve(hash_table, key):
     index = hash(key, hash_table.capacity)
-    return hash_table.storage[index].value
+    if hash_table.storage[index] is not None and hash_table.storage[index].key == key:
+        return hash_table.storage[index].value
+    else:
+        return None
 
 
 def Testing():
