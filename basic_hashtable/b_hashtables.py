@@ -16,7 +16,8 @@ class BasicHashTable:
 def hash(string, max):
     hash = 5381
     for char in string:
-        # << shifts the bits of the first operand left by 5 bits & ord(char) returns unicode point/ascii value
+        # << shifts the bits of the first operand left by 5 bits
+        # ord(char) is the numerical ascii value for every character in string
         hash = ((hash << 5) + hash) + ord(char)
     # returns a hashed integer between 0 and max
     return hash % max
@@ -45,12 +46,14 @@ def hash_table_remove(hash_table, key):
         hash_table.storage[index] = Pair(None, None)
 
 
-# Should return None if the key is not found.
 def hash_table_retrieve(hash_table, key):
+    # unhash the key to get the index
     index = hash(key, hash_table.capacity)
+    # if there is an element at the index and they have matching keys
     if hash_table.storage[index] is not None and hash_table.storage[index].key == key:
         return hash_table.storage[index].value
     else:
+        # return None if the key is not found.
         return None
 
 
