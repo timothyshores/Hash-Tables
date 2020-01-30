@@ -16,7 +16,7 @@ class BasicHashTable:
 def hash(string, max):
     hash = 5381
     for char in string:
-        # << shifts the bits of the first operand left by 5 bits
+        # << 5 shifts the bits of the first operand left by 5 bits
         # ord(char) is the numerical ascii value for every character in string
         hash = ((hash << 5) + hash) + ord(char)
     # returns a hashed integer between 0 and max
@@ -24,6 +24,7 @@ def hash(string, max):
 
 
 def hash_table_insert(hash_table, key, value):
+    # find the index by passing in the key and the hash table's capacity into the djb2 hash function
     index = hash(key, hash_table.capacity)
 
     # if you are overwriting a value with a different key, print a warning.
@@ -35,19 +36,19 @@ def hash_table_insert(hash_table, key, value):
 
 
 def hash_table_remove(hash_table, key):
-    # hash the key, max is hash table capacity
+    # find the index by passing in the key and the hash table's capacity into the djb2 hash function
     index = hash(key, hash_table.capacity)
 
     # If you try to remove a value that isn't there, print a warning.
     if hash_table.storage[index].value == None or hash_table.storage[index].key != key:
         print(f"Warning: key: {key} does not exist")
-    # else remove the key/value pair
+    # else set the the key/value pair to None
     else:
         hash_table.storage[index] = Pair(None, None)
 
 
 def hash_table_retrieve(hash_table, key):
-    # unhash the key to get the index
+    # unhash the key to get the index using the djb2 hash function
     index = hash(key, hash_table.capacity)
     # if there is an element at the index and they have matching keys
     if hash_table.storage[index] is not None and hash_table.storage[index].key == key:
